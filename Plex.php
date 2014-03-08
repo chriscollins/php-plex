@@ -5,7 +5,7 @@
  *
  * This is the file to be included in your application and will bootstrap the
  * rest of what is required.
- * 
+ *
  * @category php-plex
  * @package Plex
  * @author <nickbart@gmail.com> Nick Bartkowiak
@@ -14,7 +14,7 @@
  * @version 0.0.2
  *
  * This file is part of php-plex.
- * 
+ *
  * php-plex is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -70,7 +70,7 @@ require_once(sprintf('%s/Client/Controller/Application.php', $phpPlexDir));
 
 /**
  * Bootstrap class for using php-plex to interact with the Plex HTTP API.
- * 
+ *
  * @category php-plex
  * @package Plex
  * @author <nickbart@gmail.com> Nick Bartkowiak
@@ -81,7 +81,7 @@ require_once(sprintf('%s/Client/Controller/Application.php', $phpPlexDir));
 class Plex
 {
 	/**
-	 * A list of Plex server machines on the network. This is defined by the 
+	 * A list of Plex server machines on the network. This is defined by the
 	 * instantiating software.
 	 * @var Plex_Server[]
 	 */
@@ -94,7 +94,7 @@ class Plex
 	 * @var Plex_Client[]
 	 */
 	private static $clients = array();
-	
+
 	/**
 	 * Allows an instantiating software to define a list of Plex servers on the
 	 * network. In addition, the first server listed will be used to find the
@@ -132,15 +132,16 @@ class Plex
 				$port
 			);
 		}
-		
+
 		// We are going to use the first server in the list to get a list of the
 		// availalble clients and register those automatically.
-		$serverName = reset(array_keys(self::$servers));
+		$serverKeys = array_keys(self::$servers);
+		$serverName = reset($serverKeys);
 		$this->registerClients(
 			$this->getServer($serverName)->getClients()
 		);
 	}
-	
+
 	/**
 	 * Registers each found client with the bootstrap, so they can be found and
 	 * used by the instantiating software.
@@ -156,7 +157,7 @@ class Plex
 	{
 		self::$clients = $clients;
 	}
-	
+
 	/**
 	 * Returns the requested server by the unique name under which it was registered.
 	 *
@@ -172,14 +173,14 @@ class Plex
 	{
 		if (!isset(self::$servers[$serverName])) {
 			throw new Plex_Exception_Server(
-				'RESOURCE_NOT_FOUND', 
+				'RESOURCE_NOT_FOUND',
 				array($serverName)
 			);
 		}
 
 		return self::$servers[$serverName];
 	}
-	
+
 	/**
 	 * Returns the requested client by the unique name under which it was registered.
 	 *
