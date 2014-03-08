@@ -2,7 +2,7 @@
 
 /**
  * Plex Library Item
- * 
+ *
  * @category php-plex
  * @package Plex_Server
  * @subpackage Plex_Server_Library
@@ -12,7 +12,7 @@
  * @version 0.0.2.5
  *
  * This file is part of php-plex.
- * 
+ *
  * php-plex is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -27,7 +27,7 @@
 /**
  * Base class that helps define a Plex library item with all the generic methods
  * and membes shared by all Plex library items.
- * 
+ *
  * @category php-plex
  * @package Plex_Server
  * @subpackage Plex_Server_Library
@@ -36,7 +36,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU Public Licence (GPLv3)
  * @version 0.0.2.5
  */
-abstract class Plex_Server_Library_ItemAbstract 
+abstract class Plex_Server_Library_ItemAbstract
 	extends Plex_Server_Library_SectionAbstract
 	implements Plex_Server_Library_ItemInterface
 {
@@ -45,94 +45,94 @@ abstract class Plex_Server_Library_ItemAbstract
 	 * @var boolean
 	 */
 	protected $allowSync;
-	
+
 	/**
 	 * The ID of the library section to which the item belongs.
 	 * @var integer
 	 */
 	protected $librarySectionId;
-	
+
 	/**
 	 * Unique integer that represents an item and helps build its key string.
 	 * @var integer
 	 */
 	protected $ratingKey;
-	
+
 	/**
 	 * Key/path to specifically identify the the single item.
 	 * @var string
 	 */
 	protected $key;
-	
+
 	/**
 	 * Type of the item.
 	 * @var string
 	 */
 	protected $type;
-	
+
 	/**
 	 * Title of the item.
 	 * @var string
 	 */
 	protected $title;
-	
+
 	/**
 	 * Sorting title of the item. This is used if the item's title starts with
 	 * "The," "An," or "A."
 	 * @var string
 	 */
 	protected $titleSort;
-	
+
 	/**
 	 * Summary of the item.
 	 * @var string
 	 */
 	protected $summary;
-	
+
 	/**
 	 * Index of the item.
 	 * @var integer
 	 */
 	protected $index;
-	
+
 	/**
 	 * Reference to the thumb of the item.
 	 * @var string
 	 */
 	protected $thumb;
-	
+
 	/**
 	 * Date the item was added to the library.
 	 * @var DateTime
 	 */
    	protected $addedAt;
-	
+
 	/**
 	 * Date the item was last updated.
 	 * @var DateTime
 	 */
 	protected $updatedAt;
-	
+
 	/**
 	 * The media info associated with a Plex item.
 	 * @var Plex_Server_Library_Item_Media
 	 */
 	protected $media;
-	
+
 	/**
 	 * Endpoint for listing the child items of a parent or grandparent item.
 	 */
 	const ENDPOINT_CHILDREN = 'children';
-	
+
 	/**
 	 * Endpoint for listing all the grandchild items of an item.
 	 */
 	const ENDPOINT_ALL_LEAVES = 'allLeaves';
-	
+
 	/**
 	 * Sets an array of attribues, if they exist, to the corresponding class
 	 * member.
-	 * 
+	 *
 	 * @param array $attribute An array of item attributes as passed back by the
 	 * Plex HTTP API.
 	 *
@@ -194,7 +194,7 @@ abstract class Plex_Server_Library_ItemAbstract
 			$this->setMedia($attribute['Media']);
 		}
 	}
-	
+
 	/**
 	 * Returns a single item by its index.
 	 *
@@ -217,10 +217,10 @@ abstract class Plex_Server_Library_ItemAbstract
 		$itemType = $this->functionToType(
 			$this->getCallingFunction(3)
 		);
-		
+
 		// Find the get method and make sure it exists in the calling class.
 		$getMethod = sprintf('get%ss', ucfirst($itemType));
-		
+
 		if (method_exists($this, $getMethod)) {
 			foreach ($this->{$getMethod}() as $item) {
 				if ($item->getIndex() === $index) {
@@ -237,7 +237,7 @@ abstract class Plex_Server_Library_ItemAbstract
 			}
 		}
 	}
-	
+
 	/**
 	 * Override of the setion version of this method so we can apply slightly
 	 * different rules when retrieving single children and grandchildren at the
@@ -252,7 +252,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	 *
 	 * @return Plex_Server_Library_ItemAbstract A single Plex library item.
 	 */
-	public function getPolymorphicItem($polymorphicData)
+	public function getPolymorphicItem($polymorphicData, $scopedToItem = FALSE)
 	{
 		// At the item level, instead of assuming an integer is a rating key, we
 		// assume an integer is an index. This allows us to retrieve seasons,
@@ -268,7 +268,7 @@ abstract class Plex_Server_Library_ItemAbstract
 			return parent::getPolymorphicItem($polymorphicData, TRUE);
 		}
 	}
-	
+
 	/**
 	 * Builds an endpoint for an item to retrieve its children and grandchildren
 	 * items.
@@ -288,7 +288,7 @@ abstract class Plex_Server_Library_ItemAbstract
 			self::ENDPOINT_CHILDREN
 		);
 	}
-	
+
 	/**
 	 * Builds an endpoint for an item to retrieve all of its grandchildren.
 	 *
@@ -307,7 +307,7 @@ abstract class Plex_Server_Library_ItemAbstract
 			self::ENDPOINT_ALL_LEAVES
 		);
 	}
-	
+
 	/**
 	 * Static factory method used to instantiate child item classes by their
 	 * type.
@@ -326,10 +326,10 @@ abstract class Plex_Server_Library_ItemAbstract
 			'Plex_Server_Library_Item_%s',
 			ucfirst($type)
 		);
-		
+
 		return new $class($name, $address, $port);
 	}
-	
+
 	/**
 	 * Says whether or not the item is available for sync.
 	 *
@@ -341,7 +341,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return (boolean) $this->allowSync;
 	}
-	
+
 	/**
 	 * Sets whether or not the item is available for sync.
 	 *
@@ -355,7 +355,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		$this->allowSync = (boolean) $allowSync;
 	}
-	
+
 	/**
 	 * Return library section ID to which the item belongs.
 	 *
@@ -367,7 +367,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return (int) $this->librarySectionId;
 	}
-	
+
 	/**
 	 * Sets the library section ID to which the item belongs.
 	 *
@@ -381,7 +381,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		$this->librarySectionId = (int) $librarySectionId;
 	}
-	
+
 	/**
 	 * Returns the rating key of the item.
 	 *
@@ -393,7 +393,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return (int) $this->ratingKey;
 	}
-	
+
 	/**
 	 * Sets the rating key of the item.
 	 *
@@ -407,7 +407,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		$this->ratingKey = (int) $ratingKey;
 	}
-	
+
 	/**
 	 * Returns the key of the item.
 	 *
@@ -419,7 +419,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return $this->key;
 	}
-	
+
 	/**
 	 * Sets the key of the item.
 	 *
@@ -445,7 +445,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return $this->type;
 	}
-	
+
 	/**
 	 * Sets the type of the item.
 	 *
@@ -459,7 +459,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		$this->type = $type;
 	}
-	
+
 	/**
 	 * Returns the title of the item.
 	 *
@@ -485,7 +485,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		$this->title = $title;
 	}
-	
+
 	/**
 	 * Returns the sort title of the item.
 	 *
@@ -497,7 +497,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return $this->titleSort;
 	}
-	
+
 	/**
 	 * Sets the sort title of the item.
 	 *
@@ -511,7 +511,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		$this->titleSort = $titleSort;
 	}
-	
+
 	/**
 	 * Returns the summary of the item.
 	 *
@@ -523,7 +523,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return $this->summary;
 	}
-	
+
 	/**
 	 * Sets the summary of the item.
 	 *
@@ -549,7 +549,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return (int) $this->index;
 	}
-	
+
 	/**
 	 * Sets the index of the item.
 	 *
@@ -563,7 +563,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		$this->index = (int) $index;
 	}
-	
+
 	/**
 	 * Returns the thumb reference of the item.
 	 *
@@ -575,7 +575,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return $this->thumb;
 	}
-	
+
 	/**
 	 * Sets the thumb reference of the item.
 	 *
@@ -601,7 +601,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return $this->addedAt;
 	}
-	
+
 	/**
 	 * Sets the time at which the item was added.
 	 *
@@ -629,13 +629,13 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return $this->updatedAt;
 	}
-	
+
 	/**
 	 * Sets the time at which the item was last updated.
 	 *
 	 * @param integer $updatedAtTs The unix timestamp representing the time the
 	 * item was last updated. This will be turned into a DateTime object.
-	 * 
+	 *
 	 * @uses Plex_Server_Library_ItemAbstract::$updatedAt
 	 *
 	 * @return void
@@ -645,7 +645,7 @@ abstract class Plex_Server_Library_ItemAbstract
 		$updatedAt = new DateTime(sprintf('@%s', $updatedAtTs));
 		$this->updatedAt = $updatedAt;
 	}
-	
+
 	/**
 	 * Returns the media info of the item.
 	 *
@@ -657,7 +657,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	{
 		return $this->media;
 	}
-	
+
 	/**
 	 * Sets the media info of the item.
 	 *
