@@ -6,7 +6,7 @@ A simple PHP library for interacting with the Plex (http://plexapp.com) HTTP Con
 Requirements
 ------------
 
-php-curl  
+php-curl
 simpleXML
 
 What It Does
@@ -25,31 +25,44 @@ Playback is only implemented at the episode, movies, and track level. The plan i
 
 Paging has not been implemented for lists of items.
 
+Installation
+------------
+
+To install php-plex with Composer just add the following to your 'composer.json' file:
+
+    {
+        require: {
+            "bonvga/php-flex": "*",
+            ...
+        }
+    }
+
+
 Examples
 --------
-	
+
 Set Up
 
 	require_once('path/to/Plex.php');
-	
+
 	$servers = array(
 		'shepherd' => array(
 			'address' => '192.168.11.9'
 		)
 	);
-	
+
 	$plex = new Plex();
 	$plex->registerServers($servers);
-	
+
 	$server = $plex->getServer('shepherd');
 	$client = $plex->getClient('zoe');
 
 Get items at the library level
-	
+
 	// On deck and recently added items
 	$server->getLibrary()->getOnDeckItems();
 	$server->getLibrary()->getRecentlyAddedItems();
-	
+
 	// Sections
 	$server->getLibrary()->getSections();
 	$server->getLibrary()->getSection('Movies');
@@ -57,7 +70,7 @@ Get items at the library level
 	$server->getLibrary()->getSection('Music');
 
 Movies
-	
+
 	// Lists of movies
 	$section->getAllMovies();
 	$section->getUnwatchedMovies();
@@ -70,20 +83,20 @@ Movies
 	$section->getMoviesByContentRating('R');
 	$section->getMoviesByResolution('1080');
 	$section->getMoviesByFirstCharacter('Q');
-	
+
 	// Single movies
-	
+
 	// Exact title
 	$section->getMovie('Heavy Metal in Baghdad');
 	// Rating key
 	$section->getMovie(83696);
 	// Key
-	$section->getMovie('/library/metadata/83696');	
-	
+	$section->getMovie('/library/metadata/83696');
+
 	// Collections
 	$section->getCollections();
 	$section->getMoviesByCollection(13206);
-	
+
 	// Genres
 	$section->getGenres();
 	$section->getMoviesByGenre(1252);
@@ -91,23 +104,23 @@ Movies
 	// Directors
 	$section->getDirectors();
 	$section->getMoviesByDirector(357);
-	
+
 	// Actors
 	$section->getActors();
 	$section->getMoviesByActor(3903);
-	
+
 	// Search
 	$section->searchMovies('fly');
-	
+
 Shows, seasons, and episodes
-	
+
 	// Lists of shows
 	$section->getAllShows();
 	$section->getUnwatchedShows();
 	$section->getShowsByFirstCharacter('Q');
 	$section->getShowsByYear(1983);
 	$section->getShowsByContentRating('TV-MA');
-	
+
 	// Single shows
 	// Exact title
 	$section->getShow('Firefly');
@@ -115,13 +128,13 @@ Shows, seasons, and episodes
 	$section->getShow(46585);
 	// Key
 	$section->getShow('/library/metadata/46585');
-	
+
 	// Lists of episodes
 	$section->getRecentlyAiredEpisodes();
 	$section->getRecentlyAddedEpisodes();
 	$section->getRecentlyViewedEpisodes();
 	$section->getOnDeckEpisodes();
-	
+
 	// Single episodes
 	// Exact title
 	$section->getEpisode('Crucifixed');
@@ -129,19 +142,19 @@ Shows, seasons, and episodes
 	$section->getEpisode(83780);
 	// Key
 	$section->getEpisode('/library/metadata/83780');
-	
+
 	// Collections
 	$section->getCollections();
 	$section->getShowsByCollection(13205);
-	
+
 	// Genres
 	$section->getGenres();
 	$section->getShowsByGenre(8196);
-	
+
 	// Search
 	$section->searchShows('fly');
 	$section->searchEpisodes('fly');
-	
+
 	// By show
 	$show = $showSection->getShow('Peep Show');
 	$seasons = $show->getSeasons();
@@ -152,12 +165,12 @@ Shows, seasons, and episodes
 	$episodeByIndex = $seasonByIndex->getEpisode(4);
 	$episodeByKey = $seasonByIndex->getEpisode('/library/metadata/3116');
 	$episodeByExactTitleMatch = $seasonByIndex->getEpisode('University Challenge');
-	
+
 Artists, albums, and tracks
-	
+
 	// Lists of artists
 	$section->getAllArtists();
-	
+
 	// Single artists
 	// Exact title
 	$section->getArtist('Acrassicauda');
@@ -169,7 +182,7 @@ Artists, albums, and tracks
 	// Collections
 	$section->getCollections()
 	$section->getArtistsByCollection(13206);
-	
+
 	// Genres
 	$section->getGenres();
 	$section->getArtistsByGenre(11644);
@@ -187,11 +200,11 @@ Artists, albums, and tracks
 	$section->getTrack(67962);
 	// Key
 	$section->getTrack('/library/metadata/67962');
-	
+
 	// Search
 	$section->searchArtists('fly');
 	$section->searchTracks('fly');
-	
+
 	// By artist
 	$artist = $artistSection->getArtist('Paolo Nutini');
 	$albums = $artist->getAlbums();
@@ -200,7 +213,7 @@ Artists, albums, and tracks
 	$tracks = $albumByExactTitleMatch->getTracks();
 	$trackByIndex = $albumByExactTitleMatch->getTrack(3);
 	$trackByKey = $albumByExactTitleMatch->getTrack('/library/metadata/57726');
-	$trackByExactTitleMatch = $albumByExactTitleMatch->getTrack('Rewind');	
+	$trackByExactTitleMatch = $albumByExactTitleMatch->getTrack('Rewind');
 
 Item Media Info
 
@@ -208,12 +221,12 @@ Item Media Info
 	$episode = $showSection->getShow("The Simpsons")
 		->getSeason(4)
 		->getEpisode(12);
-	
+
 	// Media Info
 	$media = $episode->getMedia();
 	$duration = $media->getDuration();
 	$bitrate = $media->getBitrate();
-	
+
 	// File
 	$file = reset($media->getFiles());
 	$path = $file->getFile();
@@ -253,17 +266,17 @@ Navigation Controller
 Application Controller
 
 	$application = $client->getApplicationController();
-	
+
 	$episode = $section
 		->getShow('It\'s Always Sunny in Philadelphia')
 		->getSeason(5)
 		->getEpisode(4);
-	
+
 	// Play episode from beginning
 	$application->playMedia($episode);
-	
+
 	// Play epsiode from where it was last stopped
 	$application->playMedia($episode, $episode->getViewOffset());
-	
+
 	// Set voume to half
 	$application->setVolume(50);

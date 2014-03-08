@@ -4,21 +4,24 @@
     "description": "A simple PHP library for interacting with the Plex (http://plexapp.com) HTTP Control API. (forked from https://github.com/nickbart/php-plex)",
     "keywords": ["plex"],
     "license": "MIT",
-    "authors": [{
-        "name": "Nick Bartkowiak",
-        "email": "nickbart@gmail.com",
-        "homepage": "https://github.com/nickbart"
-    },{
-        "name": "Arnaud Bonnevigne",
-        "email": "bonvga@gmail.com",
-        "homepage": "https://www.bonvga.net"
-    }],
+    "authors": [
+        {
+            "name": "Nick Bartkowiak",
+            "email": "nickbart@gmail.com",
+            "homepage": "https://github.com/nickbart"
+        },
+        {
+            "name": "Arnaud Bonnevigne",
+            "email": "bonvga@gmail.com",
+            "homepage": "https://www.bonvga.net"
+        }
+    ],
     "require": {
         "php": ">=5.3"
     },
     "autoload": {
         "psr-0": {
-            "Plex": "src/"
+            "Plex": "/"
         }
     }
 }
