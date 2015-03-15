@@ -114,10 +114,17 @@ abstract class Plex_Server_Library_ItemAbstract
 	protected $updatedAt;
 
 	/**
+	 * The number of times the item has been viewed.
+	 * @var integer
+	 */
+	protected $viewCount;
+
+	/**
 	 * The media info associated with a Plex item.
 	 * @var Plex_Server_Library_Item_Media
 	 */
 	protected $media;
+
 
 	/**
 	 * Endpoint for listing the child items of a parent or grandparent item.
@@ -148,6 +155,7 @@ abstract class Plex_Server_Library_ItemAbstract
 	 * @uses Plex_Server_Library_ItemAbstract::setThumb()
 	 * @uses Plex_Server_Library_ItemAbstract::setAddedAt()
 	 * @uses Plex_Server_Library_ItemAbstract::setUpdatedAt()
+	 * @uses Plex_Server_Library_ItemAbstract::setViewCount()
 	 * @uses Plex_Server_Library_ItemAbstract::setMedia()
 	 *
 	 * @return void
@@ -189,6 +197,9 @@ abstract class Plex_Server_Library_ItemAbstract
 		}
 		if (isset($attribute['updatedAt'])) {
 			$this->setUpdatedAt($attribute['updatedAt']);
+		}
+		if (isset($attribute['viewCount'])) {
+			$this->setViewCount($attribute['viewCount']);
 		}
 		if (isset($attribute['Media'])) {
 			$this->setMedia($attribute['Media']);
@@ -628,6 +639,32 @@ abstract class Plex_Server_Library_ItemAbstract
 	public function getUpdatedAt()
 	{
 		return $this->updatedAt;
+	}
+
+	/**
+	 * Sets the number of times the item has been viewed.
+	 *
+	 * @param integer $viewCount The number of times the item has been viewed.
+	 *
+	 * @uses Plex_Server_Library_ItemAbstract::$viewCount
+	 *
+	 * @return void
+	 */
+	public function setViewCount($viewCount)
+	{
+		$this->viewCount = (int) $viewCount;
+	}
+
+	/**
+	 * Returns the number of times the item has been viewed.
+	 *
+	 * @uses Plex_Server_Library_ItemAbstract::$viewCount
+	 *
+	 * @return integer The number of times the item has been viewed.
+	 */
+	public function getViewCount()
+	{
+		return (int) $this->viewCount;
 	}
 
 	/**

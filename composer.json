@@ -1,7 +1,7 @@
 {
-    "name": "bonvga/php-plex",
+    "name": "chriscollins/php-plex",
     "type": "library",
-    "description": "A simple PHP library for interacting with the Plex (http://plexapp.com) HTTP Control API. (forked from https://github.com/nickbart/php-plex)",
+    "description": "A simple PHP library for interacting with the Plex (http://plexapp.com) HTTP Control API. (forked from https://github.com/bonvga/php-plex)",
     "keywords": ["plex"],
     "license": "MIT",
     "authors": [
@@ -14,6 +14,10 @@
             "name": "Arnaud Bonnevigne",
             "email": "bonvga@gmail.com",
             "homepage": "https://www.bonvga.net"
+        },
+        {
+            "name": "Chris Collins",
+            "email": "chrisjamescollins@gmail.com"
         }
     ],
     "require": {
